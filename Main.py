@@ -2,9 +2,8 @@ import os
 import pandas as pd
 
 data = []
-
+cols_num = 0
 for file in os.listdir("./data"):
-    cols_num = 0
     if file.endswith(".csv"):
         df = pd.read_csv(os.path.join("./data", file))
         if cols_num == 0:
@@ -15,6 +14,8 @@ for file in os.listdir("./data"):
         else:
             print(f"{file} has a different number of columns")
 data = pd.concat(data,ignore_index=True)
-
+data["priceForSquareMeter"] = round(data["price"]/data["squareMeters"],2)
 print(data.columns.tolist())
-print(data[data["city"]=="poznan"].count())
+print(data["city"].value_counts())
+# print(data["priceForSquareMeter"])
+# print(data["price"].describe())
